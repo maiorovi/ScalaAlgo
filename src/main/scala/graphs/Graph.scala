@@ -18,6 +18,8 @@ trait Graph {
   def edgesAmount: Int
 
   def adjacent(v: Vertex): List[Vertex]
+
+  def vertecies:List[Vertex]
 }
 
 class AdjacencyListBasedGraph extends Graph {
@@ -51,6 +53,8 @@ class AdjacencyListBasedGraph extends Graph {
   override  def addVertex(vertexOne: Vertex*):Unit = vertexOne.foreach(addVertex _)
 
   override def addEdge(edge: Edge*): Unit = edge.foreach(addEdge _)
+
+  override def vertecies: List[Vertex] = adjacencyList.keySet.toList
 }
 
 case class Vertex(id: String)
