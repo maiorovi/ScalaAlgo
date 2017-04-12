@@ -7,19 +7,24 @@ import scala.collection.mutable.ArrayBuffer
 trait Graph {
   def addVertex(vertexOne: Vertex): Unit
 
+  def addVertex(vertexes:Vertex*):Unit
+
   def addEdge(edge: Edge): Unit
+
+  def addEdge(edge: Edge*): Unit
 
   def vertextAmount: Int
 
   def edgesAmount: Int
 
-  def adjacent(v: Vertex): List[Edge]
+  def adjacent(v: Vertex): List[Vertex]
 }
 
 class AdjacencyListBasedGraph extends Graph {
   private val adjacencyList: mutable.LinkedHashMap[Vertex, ArrayBuffer[Edge]] = mutable.LinkedHashMap[Vertex, ArrayBuffer[Edge]]()
 
-  override def adjacent(v: Vertex): List[Edge] = ???
+  override def adjacent(v: Vertex): List[Vertex] =
+    adjacencyList.get(v).map( arrayBuffer => arrayBuffer.map(edge => edge.other(v))).get.to[List]
 
   override def vertextAmount: Int = adjacencyList size
 
@@ -36,7 +41,16 @@ class AdjacencyListBasedGraph extends Graph {
     adjacencyList(sndVertex) += edge
   }
 
-  override def addVertex(vertexOne: Vertex): Unit = adjacencyList += (vertexOne -> ArrayBuffer())
+  override def addVertex(vertexOne: Vertex): Unit = {
+    if (adjacencyList.contains(vertexOne)) {
+      throw new IllegalArgumentException("this vertex is already present in graph")
+    }
+    adjacencyList += (vertexOne -> ArrayBuffer())
+  }
+
+  override  def addVertex(vertexOne: Vertex*):Unit = vertexOne.foreach(addVertex _)
+
+  override def addEdge(edge: Edge*): Unit = edge.foreach(addEdge _)
 }
 
 case class Vertex(id: String)
