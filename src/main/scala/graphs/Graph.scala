@@ -57,6 +57,46 @@ class AdjacencyListBasedGraph extends Graph {
   override def vertecies: List[Vertex] = adjacencyList.keySet.toList
 }
 
+class DirectedAdjacencyBasedListGraph extends Graph {
+  val adjacencyListBasedGraph = mutable.LinkedHashMap[Vertex, ArrayBuffer[Edge]]()
+
+  override def addVertex(vertexOne: Vertex): Unit = {
+    if (adjacencyListBasedGraph.contains(vertexOne)) {
+      throw new IllegalArgumentException("vertex is already present inside graph")
+    }
+
+    adjacencyListBasedGraph += (vertexOne -> ArrayBuffer[Edge]())
+
+  }
+
+  override def addVertex(vertexes: Vertex*): Unit = vertexes.foreach(vertex => addVertex(vertex))
+
+  override def addEdge(edge: Edge): Unit = {
+    val (from, to) = edge.connectedVertexes
+    if (!adjacencyListBasedGraph.contains(from) || !adjacencyListBasedGraph.contains(to)) {
+      throw new IllegalArgumentException("it is only allowed to put edge while one of its vertecies in not in graph")
+    }
+
+    adjacencyListBasedGraph(from) += edge
+  }
+
+  override def addEdge(edge: Edge*): Unit = edge.foreach( e => addEdge(e))
+
+  override def vertextAmount: Int = adjacencyListBasedGraph.keySet.size
+
+  override def edgesAmount: Int = adjacencyListBasedGraph.values.map(ab => ab.size).sum
+
+  override def adjacent(v: Vertex): List[Vertex] = {
+    if(!adjacencyListBasedGraph.contains(v)) {
+      throw new IllegalArgumentException("vertex is not present in graph")
+    }
+
+    adjacencyListBasedGraph(v).map(edge => edge.other(v)).to[List]
+  }
+
+  override def vertecies: List[Vertex] = adjacencyListBasedGraph.keySet.to[List]
+}
+
 case class Vertex(id: String)
 
 case class Edge(from: Vertex, to: Vertex) {
