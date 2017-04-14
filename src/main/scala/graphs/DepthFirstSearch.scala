@@ -23,6 +23,7 @@ class DepthFirstSearch {
   }
 
   def recursiveDfs(graph:Graph, startvertex: Vertex, stack: mutable.MutableList[Vertex], visited: mutable.Set[Vertex]):Unit = {
+    visited += startvertex
     graph.adjacent(startvertex).foreach( vertex => {
       if(!visited(vertex)) {
         visited += vertex
@@ -30,5 +31,16 @@ class DepthFirstSearch {
     }})
 
     stack += startvertex
+  }
+
+  def recursiveDfsReturnVisited(graph:Graph, startvertex: Vertex, visited: mutable.Set[Vertex], seen:mutable.Set[Vertex]):Unit = {
+    visited += startvertex
+    seen += startvertex
+    graph.adjacent(startvertex).foreach( vertex => {
+      if(!visited(vertex)) {
+        visited += vertex
+        seen += vertex
+        recursiveDfsReturnVisited(graph, vertex, visited, seen)
+      }})
   }
 }

@@ -7,7 +7,7 @@ import scala.collection.mutable.ArrayBuffer
 trait Graph {
   def addVertex(vertexOne: Vertex): Unit
 
-  def addVertex(vertexes:Vertex*):Unit
+  def addVertex(vertexes: Vertex*): Unit
 
   def addEdge(edge: Edge): Unit
 
@@ -19,14 +19,14 @@ trait Graph {
 
   def adjacent(v: Vertex): List[Vertex]
 
-  def vertecies:List[Vertex]
+  def vertecies: List[Vertex]
 }
 
 class AdjacencyListBasedGraph extends Graph {
   private val adjacencyList: mutable.LinkedHashMap[Vertex, ArrayBuffer[Edge]] = mutable.LinkedHashMap[Vertex, ArrayBuffer[Edge]]()
 
   override def adjacent(v: Vertex): List[Vertex] =
-    adjacencyList.get(v).map( arrayBuffer => arrayBuffer.map(edge => edge.other(v))).get.to[List]
+    adjacencyList.get(v).map(arrayBuffer => arrayBuffer.map(edge => edge.other(v))).get.to[List]
 
   override def vertextAmount: Int = adjacencyList size
 
@@ -50,7 +50,7 @@ class AdjacencyListBasedGraph extends Graph {
     adjacencyList += (vertexOne -> ArrayBuffer())
   }
 
-  override  def addVertex(vertexOne: Vertex*):Unit = vertexOne.foreach(addVertex _)
+  override def addVertex(vertexOne: Vertex*): Unit = vertexOne.foreach(addVertex _)
 
   override def addEdge(edge: Edge*): Unit = edge.foreach(addEdge _)
 
@@ -80,18 +80,27 @@ class DirectedAdjacencyBasedListGraph extends Graph {
     adjacencyListBasedGraph(from) += edge
   }
 
-  override def addEdge(edge: Edge*): Unit = edge.foreach( e => addEdge(e))
+  override def addEdge(edge: Edge*): Unit = edge.foreach(e => addEdge(e))
 
   override def vertextAmount: Int = adjacencyListBasedGraph.keySet.size
 
   override def edgesAmount: Int = adjacencyListBasedGraph.values.map(ab => ab.size).sum
 
   override def adjacent(v: Vertex): List[Vertex] = {
-    if(!adjacencyListBasedGraph.contains(v)) {
+    if (!adjacencyListBasedGraph.contains(v)) {
       throw new IllegalArgumentException("vertex is not present in graph")
     }
 
     adjacencyListBasedGraph(v).map(edge => edge.other(v)).to[List]
+  }
+
+  def reverse(): Graph = {
+    val newGraph = new DirectedAdjacencyBasedListGraph
+    adjacencyListBasedGraph.keySet.foreach(newGraph.addVertex(_))
+
+    adjacencyListBasedGraph.values.foreach( edges => edges.foreach(edge => newGraph.addEdge(edge.reverse)))
+
+    newGraph
   }
 
   override def vertecies: List[Vertex] = adjacencyListBasedGraph.keySet.to[List]
@@ -104,5 +113,7 @@ case class Edge(from: Vertex, to: Vertex) {
   else if (that == to) from
   else throw new IllegalArgumentException("Vertex doesn`t have any relations to this edge")
 
-  def connectedVertexes:(Vertex, Vertex) = (from, to)
+  def connectedVertexes: (Vertex, Vertex) = (from, to)
+
+  def reverse:Edge = Edge(to, from)
 }
