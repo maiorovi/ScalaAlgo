@@ -58,14 +58,14 @@ class AdjacencyListBasedGraph extends Graph {
 }
 
 class DirectedAdjacencyBasedListGraph extends Graph {
-  val adjacencyListBasedGraph = mutable.LinkedHashMap[Vertex, ArrayBuffer[Edge]]()
+  val adjacencyListBasedGraph = mutable.HashMap[Vertex, ArrayBuffer[Edge]]()
 
   override def addVertex(vertexOne: Vertex): Unit = {
     if (adjacencyListBasedGraph.contains(vertexOne)) {
-      throw new IllegalArgumentException("vertex is already present inside graph")
+//      throw new IllegalArgumentException("vertex is already present inside graph")
+    } else {
+      adjacencyListBasedGraph += (vertexOne -> ArrayBuffer[Edge]())
     }
-
-    adjacencyListBasedGraph += (vertexOne -> ArrayBuffer[Edge]())
 
   }
 
