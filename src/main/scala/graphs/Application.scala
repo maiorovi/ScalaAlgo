@@ -4,6 +4,12 @@ import scala.collection.mutable
 import scala.io.Source
 
 object Application {
+
+  // 1) O(m)
+  // 2) O(n^2)
+  // 3) r <= d, r >= d / 2
+  // 4) sometimes yes, sometimes no
+  // 5) could remain the same
   def main(args: Array[String]):Unit = {
     val lines = Source.fromResource("graph.txt").getLines()
 //am
