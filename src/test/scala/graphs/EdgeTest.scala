@@ -10,10 +10,10 @@ class EdgeTest extends FunSuite with MockFactory with BeforeAndAfter {
   var vertexTwo:Vertex = _
 
   before {
-    vertexOne = new Vertex("1")
-    vertexTwo = new Vertex("2")
+    vertexOne = Vertex("1")
+    vertexTwo = Vertex("2")
 
-    edge = new Edge(vertexOne, vertexTwo)
+    edge = Edge(vertexOne, vertexTwo)
   }
 
   //not real unit tests

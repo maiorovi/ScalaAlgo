@@ -19,6 +19,8 @@ trait Graph {
 
   def adjacent(v: Vertex): List[Vertex]
 
+  def outEdges(v:Vertex):List[Edge]
+
   def vertecies: List[Vertex]
 }
 
@@ -55,6 +57,8 @@ class AdjacencyListBasedGraph extends Graph {
   override def addEdge(edge: Edge*): Unit = edge.foreach(addEdge _)
 
   override def vertecies: List[Vertex] = adjacencyList.keySet.toList
+
+  override def outEdges(v: Vertex): List[Edge] = adjacencyList(v).toList
 }
 
 class DirectedAdjacencyBasedListGraph extends Graph {
@@ -104,16 +108,8 @@ class DirectedAdjacencyBasedListGraph extends Graph {
   }
 
   override def vertecies: List[Vertex] = adjacencyListBasedGraph.keySet.to[List]
+
+  override def outEdges(v: Vertex): List[Edge] = adjacencyListBasedGraph(v).toList
 }
 
 case class Vertex(id: String)
-
-case class Edge(from: Vertex, to: Vertex) {
-  def other(that: Vertex): Vertex = if (from == that) to
-  else if (that == to) from
-  else throw new IllegalArgumentException("Vertex doesn`t have any relations to this edge")
-
-  def connectedVertexes: (Vertex, Vertex) = (from, to)
-
-  def reverse:Edge = Edge(to, from)
-}
