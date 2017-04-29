@@ -17,6 +17,11 @@ class StronglyConnectedComponentsAlgo {
         dfs.recursiveDfs(reversedGraph, vertex, topOrder, visited)
       }
     })
+//    434821
+//    968
+//    459
+//    313
+//    211
 
     visited = mutable.Set[Vertex]()
 

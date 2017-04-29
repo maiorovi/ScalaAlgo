@@ -66,10 +66,10 @@ class DirectedAdjacencyBasedListGraph extends Graph {
 
   override def addVertex(vertexOne: Vertex): Unit = {
     if (adjacencyListBasedGraph.contains(vertexOne)) {
-      throw new IllegalArgumentException("vertex is already present inside graph")
+//      throw new IllegalArgumentException("vertex is already present inside graph")
+    } else {
+      adjacencyListBasedGraph += (vertexOne -> ArrayBuffer[Edge]())
     }
-
-    adjacencyListBasedGraph += (vertexOne -> ArrayBuffer[Edge]())
 
   }
 
