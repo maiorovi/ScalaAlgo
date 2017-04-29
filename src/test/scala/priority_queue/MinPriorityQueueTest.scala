@@ -72,7 +72,7 @@ class MinPriorityQueueTest extends FunSuite with BeforeAndAfter {
   }
 
   test("addition of a lot of elements causes extension of a heap") {
-    1 to 20  foreach pq.insert
+    1 to 20  foreach (x => pq.insert(x.toDouble))
 
     assertResult(1) {
       pq.deleteMin()

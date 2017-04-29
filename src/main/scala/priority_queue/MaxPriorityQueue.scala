@@ -3,20 +3,20 @@ package priority_queue
 import scala.annotation.tailrec
 
 trait MaxPriorityQueue {
-  def insert(elem:Int):Unit
-  def deleteMax(): Int
+  def insert(elem:Double):Unit
+  def deleteMax(): Double
   def size:Int
-  def maxElem: Int
+  def maxElem: Double
   def isEmpty: Boolean
 }
 
 
 
 class HeapBasedMaxPriorityQueue extends MaxPriorityQueue {
-  var heap:Array[Int] = new Array[Int](8)
+  var heap:Array[Double] = new Array[Double](8)
   var pointer = 0
 
-  override def insert(elem: Int): Unit = {
+  override def insert(elem: Double): Unit = {
     ensureSize()
     heap(pointer) = elem
     pointer += 1
@@ -26,7 +26,7 @@ class HeapBasedMaxPriorityQueue extends MaxPriorityQueue {
     bubleUp(childInd, parentInd)
   }
 
-  override def deleteMax(): Int = {
+  override def deleteMax(): Double = {
   if (heap.isEmpty) {
     throw new RuntimeException("Queue Is Empty")
   }
@@ -56,12 +56,12 @@ private def bubleDown(childOneInd: Int, childTwoInd: Int, parentInd: Int): Unit 
 
   override def size: Int = pointer
 
-  override def maxElem: Int = if (isEmpty) throw new RuntimeException("maxElem is called on empty queue") else heap(0)
+  override def maxElem: Double = if (isEmpty) throw new RuntimeException("maxElem is called on empty queue") else heap(0)
 
   private def ensureSize(): Unit = {
     if ((heap.size - 1) < pointer) {
       val newSize = heap.size * 2
-      val newArray = new Array[Int](newSize)
+      val newArray = new Array[Double](newSize)
       (0 to (heap.size - 1)).foreach(ind => newArray(ind) = heap(ind))
       heap = newArray
     }

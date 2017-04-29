@@ -48,4 +48,22 @@ class MedianMaintenanceTest extends FunSuite with BeforeAndAfter {
     }
   }
 
+  test("other real case") {
+    assertResult((2303 + 2793) / 2) {
+      medianMaintenance.appendAndFindMedian(6331)
+      medianMaintenance.appendAndFindMedian(2793)
+      medianMaintenance.appendAndFindMedian(1640)
+      medianMaintenance.appendAndFindMedian(9290)
+      medianMaintenance.appendAndFindMedian(225)
+      medianMaintenance.appendAndFindMedian(625)
+      medianMaintenance.appendAndFindMedian(6195)
+      medianMaintenance.appendAndFindMedian(2303)
+    }
+  }
+//  6331
+//  2793
+//  1640
+//  9290
+//  225
+//  625
 }
