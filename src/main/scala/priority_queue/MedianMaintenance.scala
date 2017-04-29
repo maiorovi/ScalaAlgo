@@ -25,7 +25,7 @@ class MedianMaintenance {
     }
   }
 
-  def appendAndFindMedian(x:Double):Double = {
+  def appendAndFindMedian(x:Int):Int = {
     if (minPQ.isEmpty && maxPQ.isEmpty) {
       minPQ.insert(x)
       counter += 1
@@ -45,7 +45,7 @@ class MedianMaintenance {
     countMedian()
   }
 
-  private def decideInsertionOf(x: Double) = {
+  private def decideInsertionOf(x: Int) = {
     val minInMax = maxPQ.minElem
     val maxInMin = minPQ.maxElem
 
@@ -56,7 +56,7 @@ class MedianMaintenance {
     }
   }
 
-  private def countMedian(): Double = {
+  private def countMedian(): Int = {
     if (isOddAmount) {
      returnElemFromBiggerQueue
     } else {
@@ -65,10 +65,10 @@ class MedianMaintenance {
 
   }
 
-  private def returnElemFromBiggerQueue:Double = if (maxPQ.size > minPQ.size) maxPQ.minElem else minPQ.maxElem
+  private def returnElemFromBiggerQueue:Int = if (maxPQ.size > minPQ.size) maxPQ.minElem else minPQ.maxElem
 
   private def isOddAmount:Boolean = (minPQ.size + maxPQ.size) % 2 != 0
 
 
-  def allMediansOfSequence(xs:List[Double]):List[Double] = xs.map(appendAndFindMedian)
+  def allMediansOfSequence(xs:List[Int]):List[Int] = xs.map(appendAndFindMedian)
 }

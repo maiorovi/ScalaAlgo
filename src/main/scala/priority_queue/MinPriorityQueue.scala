@@ -4,23 +4,23 @@ import scala.annotation.tailrec
 import scala.collection.mutable.ArrayBuffer
 
 trait MinPriorityQueue {
-  def deleteMin(): Double
+  def deleteMin(): Int
 
-  def insert(elem: Double): Unit
+  def insert(elem: Int): Unit
 
   def size: Int
 
-  def minElem: Double
+  def minElem: Int
 
   def isEmpty: Boolean
 }
 
 
 class HeapBasedMinPriorityQueue extends MinPriorityQueue {
-  private var array: Array[Double] = Array[Double](2)
+  private var array: Array[Int] = Array[Int](2)
   private var pointer = 0
 
-  override def deleteMin(): Double = {
+  override def deleteMin(): Int = {
     if (array.isEmpty) {
       throw new RuntimeException("Queue Is Empty")
     }
@@ -48,7 +48,7 @@ class HeapBasedMinPriorityQueue extends MinPriorityQueue {
     }
   }
 
-  override def insert(elem: Double): Unit = {
+  override def insert(elem: Int): Unit = {
     ensureSize()
     array(pointer) = elem
     pointer += 1
@@ -61,7 +61,7 @@ class HeapBasedMinPriorityQueue extends MinPriorityQueue {
   private def ensureSize(): Unit = {
     if ((array.size - 1) < pointer) {
       val newSize = array.size * 2
-      val newArray = new Array[Double](newSize)
+      val newArray = new Array[Int](newSize)
       (0 to (array.size - 1)).foreach(ind => newArray(ind) = array(ind))
       array = newArray
     }
@@ -83,7 +83,7 @@ class HeapBasedMinPriorityQueue extends MinPriorityQueue {
 
   override def size: Int = pointer
 
-  override def minElem: Double = if(isEmpty) throw new RuntimeException("minElem is called on Empty Queue") else array(0)
+  override def minElem: Int = if(isEmpty) throw new RuntimeException("minElem is called on Empty Queue") else array(0)
 
   override def isEmpty: Boolean = pointer == 0
 }
