@@ -71,6 +71,40 @@ class MinPriorityQueueTest extends FunSuite with BeforeAndAfter {
     }
   }
 
+  test("addition of a lot of elements causes extension of a heap") {
+    1 to 20  foreach pq.insert
 
+    assertResult(1) {
+      pq.deleteMin()
+    }
+  }
+
+  test("isEmpty operation returns true when no elements inserted") {
+    assertResult(true) {
+      pq.isEmpty
+    }
+  }
+
+  test("isEmpty operation returns false when at least one element inserted") {
+    pq.insert(50)
+    assertResult(false) {
+      pq.isEmpty
+    }
+  }
+
+  test("isEmpty returns true when element was inserted and then deleted") {
+    pq.insert(50)
+    pq.deleteMin()
+
+    assertResult(true) {
+      pq.isEmpty
+    }
+  }
+
+  test("minElem throws runtime exception when called on empty priority queue") {
+    assertThrows[RuntimeException] {
+      pq.minElem
+    }
+  }
 
 }

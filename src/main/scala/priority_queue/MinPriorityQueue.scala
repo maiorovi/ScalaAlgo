@@ -11,6 +11,8 @@ trait MinPriorityQueue {
   def size: Int
 
   def minElem: Int
+
+  def isEmpty: Boolean
 }
 
 
@@ -81,6 +83,7 @@ class HeapBasedMinPriorityQueue extends MinPriorityQueue {
 
   override def size: Int = pointer
 
-  override def minElem: Int = array(0)
+  override def minElem: Int = if(isEmpty) throw new RuntimeException("minElem is called on Empty Queue") else array(0)
 
+  override def isEmpty: Boolean = pointer == 0
 }

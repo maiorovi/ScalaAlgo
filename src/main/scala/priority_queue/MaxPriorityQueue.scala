@@ -7,6 +7,7 @@ trait MaxPriorityQueue {
   def deleteMax(): Int
   def size:Int
   def maxElem: Int
+  def isEmpty: Boolean
 }
 
 
@@ -55,7 +56,7 @@ private def bubleDown(childOneInd: Int, childTwoInd: Int, parentInd: Int): Unit 
 
   override def size: Int = pointer
 
-  override def maxElem: Int = heap(0)
+  override def maxElem: Int = if (isEmpty) throw new RuntimeException("maxElem is called on empty queue") else heap(0)
 
   private def ensureSize(): Unit = {
     if ((heap.size - 1) < pointer) {
@@ -79,4 +80,6 @@ private def bubleDown(childOneInd: Int, childTwoInd: Int, parentInd: Int): Unit 
     heap(from) = heap(to)
     heap(to) = tmp
   }
+
+  def isEmpty: Boolean = pointer == 0
 }
