@@ -1,9 +1,9 @@
 package priority_queue
 
 class MedianMaintenance {
-  val minPQ: HeapBasedMaxPriorityQueue = new HeapBasedMaxPriorityQueue
-  val maxPQ: HeapBasedMinPriorityQueue = new HeapBasedMinPriorityQueue
-  var counter = 0
+  private val minPQ: HeapBasedMaxPriorityQueue = new HeapBasedMaxPriorityQueue
+  private val maxPQ: HeapBasedMinPriorityQueue = new HeapBasedMinPriorityQueue
+  private var counter = 0
 
 
   def balancePqsIfNeeded() = {
@@ -70,4 +70,5 @@ class MedianMaintenance {
   private def isOddAmount:Boolean = (minPQ.size + maxPQ.size) % 2 != 0
 
 
+  def allMediansOfSequence(xs:List[Int]):List[Int] = xs.map(appendAndFindMedian)
 }
