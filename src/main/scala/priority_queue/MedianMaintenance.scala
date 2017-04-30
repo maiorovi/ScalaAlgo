@@ -3,7 +3,6 @@ package priority_queue
 class MedianMaintenance {
   val minPQ: HeapBasedMaxPriorityQueue = new HeapBasedMaxPriorityQueue
   val maxPQ: HeapBasedMinPriorityQueue = new HeapBasedMinPriorityQueue
-  var counter = 0
 
 
   def balancePqsIfNeeded() = {
@@ -28,21 +27,20 @@ class MedianMaintenance {
   def appendAndFindMedian(x:Int):Int = {
     if (minPQ.isEmpty && maxPQ.isEmpty) {
       minPQ.insert(x)
-      counter += 1
       return x
     }
 
     if (maxPQ.isEmpty) {
       maxPQ.insert(x)
-      counter += 1
       swapElementsInQueuesIfNeeded()
-      return (minPQ.maxElem + maxPQ.minElem) / 2
+      return minPQ.maxElem
     }
 
     decideInsertionOf(x)
     balancePqsIfNeeded()
-    counter += 1
-    countMedian()
+    val median = countMedian()
+
+    median
   }
 
   private def decideInsertionOf(x: Int) = {
@@ -60,7 +58,7 @@ class MedianMaintenance {
     if (isOddAmount) {
      returnElemFromBiggerQueue
     } else {
-      (maxPQ.minElem + minPQ.maxElem) / 2
+      minPQ.maxElem
     }
 
   }
@@ -69,6 +67,7 @@ class MedianMaintenance {
 
   private def isOddAmount:Boolean = (minPQ.size + maxPQ.size) % 2 != 0
 
+  def seqSize:Int = minPQ.size + maxPQ.size
 
   def allMediansOfSequence(xs:List[Int]):List[Int] = xs.map(appendAndFindMedian)
 }
