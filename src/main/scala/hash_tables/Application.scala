@@ -8,10 +8,10 @@ object Application {
   type Line = String
 
   def main(args:Array[String]):Unit = {
-    val seq = readFile("prob-2sum.txt").map(BigDecimal(_))
+    val seq = readFile("prob-2sum.txt").map(_.toLong)
     val twoSum = new TwoSum
 
-    println(twoSum.findTwoSumAmount(seq, -10000, 10000))
+    println(twoSum.findTwoSumAmount(seq, -10000, 10000).size)
 
   }
 
