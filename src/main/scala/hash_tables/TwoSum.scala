@@ -3,7 +3,7 @@ package hash_tables
 import scala.collection.mutable
 
 class TwoSum {
-  var counter = 0
+  var counter:Double = 0
   var sum = 0
 
   def findTwoSumAmount(input: List[Long], start: Int, end: Int): Set[(Long, Long)] = {
@@ -22,7 +22,7 @@ class TwoSum {
           true
         }
       })
-      if(counter % (0.01*(end-start)) == 0) {
+      if(counter % (0.001*(end-start)) == 0) {
         println(s"${counter*100 / (end-start)}%, current sum is: ${sum}" )
       }
 
