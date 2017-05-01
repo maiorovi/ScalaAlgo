@@ -16,21 +16,15 @@ class TwoSumTest extends FunSuite with BeforeAndAfter {
   }
 
   test("works with duplicate numbers in array") {
-    assertResult(Set((1,2), (1,7), (2,7))) {
-      twoSum.findTwoSumAmount(List(1, 1, 2, 10, 12, 13, 14, 7), 0, 10)
-    }
+      twoSum.findTwoSumAmount(List(1, 1, 2, 10, 12, 13, 14, 7), 0, 10) should contain only((1,2), (1,7), (2,7))
   }
 
   test("works with negative numbers correctly") {
-    assertResult(Set((1,2), (-10, 12), (-10,13), (-10,14))) {
-      twoSum.findTwoSumAmount(List(1, 2, -10, 12, 13, 14), 0, 10)
-    }
+      twoSum.findTwoSumAmount(List(1, 2, -10, 12, 13, 14), 0, 10) should contain only((1,2), (12, -10), (14, -10))
   }
 
   test("works with negative range correctly") {
-    assertResult(Set((1, -10), (1,2), (2, -10),  (-10, 12), (-10,13), (-10,14))) {
-      twoSum.findTwoSumAmount(List(1, 2, -10, 12, 13, 14), -10, 10)
-    }
+      twoSum.findTwoSumAmount(List(1, 2, -10, 12, 13, 14), -10, 10) should contain only( (1, -10), (1,2), (2, -10),  (12, -10), (14, -10) )
   }
 
   test("bottom range is included into consideration") {

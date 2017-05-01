@@ -8,25 +8,28 @@ class TwoSum {
 
   def findTwoSumAmount(input: List[Long], start: Int, end: Int): Set[(Long, Long)] = {
     val elems = input.toSet
-    val bannedTuples = mutable.HashSet[(Long, Long)]()
+    var i:Long = start
+    val result = new mutable.MutableList[(Long, Long)]()
 
-    input flatMap (elem => {
-      val seq = (start to end) map (numbFromRange => numbFromRange - elem) filter (elems(_)) map (e => (elem, e)) filter (t => t._1 != t._2) filter (!bannedTuples(_))
-
-      seq.foreach(t => bannedTuples.+=((t._2, t._1)))
-      counter += 1
-
-      if (counter % 10000 == 0) {
-        println(s"${counter * 100 / 1000000}% completed, current sum: ${sum}")
+    while(i <= end) {
+      elems.takeWhile(elem => {
+        val need:Long = i - elem
+        if (elems(need) && elem != need) {
+          result.+=((elem, need))
+          sum += 1
+          false
+        } else {
+          true
+        }
+      })
+      if(counter % (0.01*(end-start)) == 0) {
+        println(s"${counter*100 / (end-start)}%, current sum is: ${sum}" )
       }
 
-      if (!seq.isEmpty) {
-        println(seq)
-      }
-      sum += seq.size
+      i += 1
+      counter+=1
+    }
 
-      seq
-
-    }) toSet
+    result.toSet
   }
 }
