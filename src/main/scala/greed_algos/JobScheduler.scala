@@ -4,7 +4,7 @@ class JobScheduler {
 
   def schedule(jobs: List[Job]): (Long, List[Job]) = {
 
-    val sortedJobs = jobs.sortWith(jobOrderingFun)
+    val sortedJobs = jobs.sortWith(jobOrderingFunUsingDivision)
     var current: Long = 0
 
     val jobsWithTimeToComplete: List[Job] = sortedJobs.map(job => {
@@ -17,7 +17,7 @@ class JobScheduler {
     (minimizedValue, sortedJobs)
   }
 
-  def jobOrderingFun(j1: Job, j2: Job): Boolean = {
+  def jobOrderingFunUsingSubtraction(j1: Job, j2: Job): Boolean = {
     val fstDiff = j1.weight - j1.length
     val sndDiff = j2.weight - j2.length
 
@@ -26,6 +26,13 @@ class JobScheduler {
     } else {
       fstDiff - sndDiff > 0
     }
+  }
+
+  def jobOrderingFunUsingDivision(j1:Job, j2:Job):Boolean = {
+    val fstRatio = j1.weight.toDouble / j1.length.toDouble
+    val sndRatio = j2.weight.toDouble / j2.length.toDouble
+
+    fstRatio > sndRatio
   }
 
 }
