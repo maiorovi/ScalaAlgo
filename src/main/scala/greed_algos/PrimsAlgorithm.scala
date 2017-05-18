@@ -21,13 +21,20 @@ class PrimsAlgorithm {
       val curVertex = queue.dequeue()
       if (!seenVertexes(curVertex)) {
         seenVertexes += curVertex
-        graph.outEdges(curVertex).filter(!mst(_)).foreach(heap += _)
+        graph.outEdges(curVertex).filter(edge => !seenVertexes(edge.from) || !seenVertexes(edge.to)).foreach(heap += _)
 
-        val minEdge = findMinEdge(heap)
+
+        var minEdge = findMinEdge(heap)
         heap = heap.filter(_ != minEdge)
+        //some edges in the priority queue can become not crossing
+        while(seenVertexes(minEdge.from) && seenVertexes(minEdge.to)) {
+          minEdge = findMinEdge(heap)
+          heap = heap.filter(_ != minEdge)
+        }
+
+//        heap = heap.filter(_ != minEdge)
         mst += minEdge
-        queue enqueue minEdge.to
-        queue enqueue minEdge.from
+        if (!seenVertexes(minEdge.to)) queue enqueue minEdge.to else queue.enqueue(minEdge.from)
       }
     }
 
