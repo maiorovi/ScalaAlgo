@@ -4,7 +4,8 @@ class JobScheduler {
 
   def schedule(jobs: List[Job]): (Long, List[Job]) = {
 
-    val sortedJobs = jobs.sortWith(jobOrderingFunUsingDivision)
+//    val sortedJobs = jobs.sortWith(jobOrderingFunUsingDivision)
+    val sortedJobs = jobs.sortWith(jobOrderingFunUsingSubtraction)
     var current: Long = 0
 
     val jobsWithTimeToComplete: List[Job] = sortedJobs.map(job => {

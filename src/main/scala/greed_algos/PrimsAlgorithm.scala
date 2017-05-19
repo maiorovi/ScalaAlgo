@@ -3,45 +3,53 @@ package greed_algos
 import java.util
 
 import graphs.{Edge, Graph, Vertex}
-import priority_queue.HeapBasedMinPriorityQueue
 
 import scala.collection.mutable
 
 class PrimsAlgorithm {
+  private var visited: mutable.Set[Vertex] = _
+  private var edgesQueue: mutable.MutableList[Edge] = _
+  private var mst:mutable.MutableList[Edge] = _
 
   def runPrimAlgorithm(graph: Graph, startVertex: Vertex): (Int, List[Edge]) = {
-    var heap = new mutable.MutableList[Edge]()
-    val mst = new mutable.HashSet[Edge]()
-    val queue = mutable.Queue[Vertex]()
-    val seenVertexes = new mutable.HashSet[Vertex]()
+    visited = mutable.Set[Vertex]()
+    edgesQueue = mutable.MutableList[Edge]()
+    mst = mutable.MutableList[Edge]()
 
-    queue enqueue startVertex
+    visit(graph, startVertex)
 
-    while(!queue.isEmpty && mst.size != (graph.vertextAmount - 1)) {
-      val curVertex = queue.dequeue()
-      if (!seenVertexes(curVertex)) {
-        seenVertexes += curVertex
-        graph.outEdges(curVertex).filter(edge => !seenVertexes(edge.from) || !seenVertexes(edge.to)).foreach(heap += _)
+    while(!edgesQueue.isEmpty) {
+      val minEdge = findMinEdge(edgesQueue)
+      edgesQueue = edgesQueue.filter(e => e != minEdge)
 
+      val to = minEdge.to
+      val from = minEdge.from
 
-        var minEdge = findMinEdge(heap)
-        heap = heap.filter(_ != minEdge)
-        //some edges in the priority queue can become not crossing
-        while(seenVertexes(minEdge.from) && seenVertexes(minEdge.to)) {
-          minEdge = findMinEdge(heap)
-          heap = heap.filter(_ != minEdge)
-        }
-
-//        heap = heap.filter(_ != minEdge)
+      if (!(visited(to) && visited(from))) {
         mst += minEdge
-        if (!seenVertexes(minEdge.to)) queue enqueue minEdge.to else queue.enqueue(minEdge.from)
+        if(!visited(to)) visit(graph, to)
+        if(!visited(from)) visit(graph, from)
       }
+
     }
 
-    (mst.map(_.weight).sum, mst.toList)
+    (mst.map(e => e.weight).sum, mst.toList)
   }
 
-  private def findMinEdge(collection: mutable.MutableList[Edge]):Edge =
+  private def visit(graph: Graph, vertex: Vertex): Unit = {
+    val outEdges = graph.outEdges(vertex)
+    visited += vertex
+
+    outEdges.foreach(edge => {
+      if (!visited(edge.other(vertex))) {
+        edgesQueue += edge
+      }
+    })
+
+  }
+
+  private def findMinEdge(collection: mutable.MutableList[Edge]): Edge = {
     collection.foldLeft(collection.head)((acc, e) => if (acc.weight > e.weight) e else acc)
+  }
 
 }

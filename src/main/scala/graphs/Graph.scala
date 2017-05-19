@@ -22,6 +22,8 @@ trait Graph {
   def outEdges(v:Vertex):List[Edge]
 
   def vertecies: List[Vertex]
+
+  def edges: List[Edge]
 }
 
 class AdjacencyListBasedGraph extends Graph {
@@ -59,6 +61,8 @@ class AdjacencyListBasedGraph extends Graph {
   override def vertecies: List[Vertex] = adjacencyList.keySet.toList
 
   override def outEdges(v: Vertex): List[Edge] = adjacencyList(v).toList
+
+  def edges: List[Edge] = adjacencyList.keySet.flatMap(v => adjacencyList(v).toSet).toList
 }
 
 class DirectedAdjacencyBasedListGraph extends Graph {
@@ -110,6 +114,8 @@ class DirectedAdjacencyBasedListGraph extends Graph {
   override def vertecies: List[Vertex] = adjacencyListBasedGraph.keySet.to[List]
 
   override def outEdges(v: Vertex): List[Edge] = adjacencyListBasedGraph(v).toList
+
+  override def edges: List[Edge] = ???
 }
 
 case class Vertex(id: String)
