@@ -10,16 +10,19 @@ class PrimsAlgorithm {
   private var visited: mutable.Set[Vertex] = _
   private var edgesQueue: mutable.MutableList[Edge] = _
   private var mst:mutable.MutableList[Edge] = _
+  private var edgesProcessed = 0
 
   def runPrimAlgorithm(graph: Graph, startVertex: Vertex): (Int, List[Edge]) = {
     visited = mutable.Set[Vertex]()
     edgesQueue = mutable.MutableList[Edge]()
     mst = mutable.MutableList[Edge]()
+    edgesProcessed = 0
 
     visit(graph, startVertex)
 
     while(!edgesQueue.isEmpty) {
       val minEdge = findMinEdge(edgesQueue)
+      edgesProcessed += 1
       edgesQueue = edgesQueue.filter(e => e != minEdge)
 
       val to = minEdge.to
@@ -32,6 +35,8 @@ class PrimsAlgorithm {
       }
 
     }
+
+    println(s"Processed edges ${edgesProcessed}")
 
     (mst.map(e => e.weight).sum, mst.toList)
   }
