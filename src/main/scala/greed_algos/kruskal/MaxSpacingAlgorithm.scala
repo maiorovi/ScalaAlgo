@@ -5,20 +5,34 @@ import greed_algos.union_find.UnionFind
 
 class MaxSpacingAlgorithm {
 
-  def runMaxSpacingProblem(graph: Graph, k:Int):List[Edge] = {
+  def runMaxSpacingProblem(graph: Graph, k: Int): Int = {
     val uf = new UnionFind[Vertex]()
     //initialize graph
     graph.vertecies.foreach(uf.add(_))
-    var currentClustersAmount = graph.vertextAmount
+    val initialClustersAmount = graph.vertextAmount
 
-    val sortedEdges:List[Edge] = graph.edges.sortWith((e1, e2) => e1.weight < e2.weight)
+    if (k > initialClustersAmount) {
+      throw new IllegalArgumentException
+    }
+    var maxSpacing = 0
+    var currentClustersAmount = initialClustersAmount
+    val sortedEdges: List[Edge] = graph.edges.sortWith((e1, e2) => e1.weight < e2.weight)
 
-    sortedEdges.take(currentClustersAmount - k).foreach(edge => {
-        val (v1, v2) = edge.connectedVertexes
-        uf.union(v1, v2)
+    sortedEdges.take(initialClustersAmount - k + 1).foreach(edge => {
+      val (v1, v2) = edge.connectedVertexes
+
+
+      if (!uf.connected(v1, v2)) {
+        if (k == currentClustersAmount) {
+          maxSpacing = edge.weight
+        } else {
+          currentClustersAmount -= 1
+          uf.union(v1, v2)
+        }
+      }
     })
 
-    List()
+    maxSpacing
   }
 
 }
