@@ -84,4 +84,29 @@ class UnionFindTest extends FunSuite with Matchers with BeforeAndAfter {
     uf.connected(dog1, dog4) shouldBe true
   }
 
+  test("does union of two tree correctly") {
+    val dog1 = Dog("dog1")
+    val dog2 = Dog("dog2")
+    val dog3 = Dog("dog3")
+    val dog4 = Dog("dog4")
+    val dog5 = Dog("dog5")
+
+    uf.add(dog1)
+    uf.add(dog2)
+    uf.add(dog3)
+    uf.add(dog4)
+    uf.add(dog5)
+
+    uf.union(dog1, dog3)
+    uf.union(dog3, dog5)
+
+
+    uf.union(dog2, dog4)
+    //union two tree
+    uf.union(dog3, dog4)
+
+    uf.connected(dog3, dog5) shouldBe true
+    uf.connected(dog1, dog4) shouldBe true
+  }
+
 }
