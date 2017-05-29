@@ -18,17 +18,16 @@ class MaxSpacingAlgorithm {
     var currentClustersAmount = initialClustersAmount
     val sortedEdges: List[Edge] = graph.edges.sortWith((e1, e2) => e1.weight < e2.weight)
 
-    sortedEdges.take(initialClustersAmount - k + 1).foreach(edge => {
+    sortedEdges.foreach(edge => {
+
+      if (k == currentClustersAmount) {
+        maxSpacing = edge.weight
+      }
+
       val (v1, v2) = edge.connectedVertexes
-
-
       if (!uf.connected(v1, v2)) {
-        if (k == currentClustersAmount) {
-          maxSpacing = edge.weight
-        } else {
-          currentClustersAmount -= 1
-          uf.union(v1, v2)
-        }
+        currentClustersAmount -= 1
+        uf.union(v1, v2)
       }
     })
 

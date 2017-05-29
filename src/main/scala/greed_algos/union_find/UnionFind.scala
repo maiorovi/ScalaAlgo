@@ -23,8 +23,10 @@ class UnionFind[T] {
     if (!clustersContainer.contains(x) || !clustersContainer.contains(y)) {
       throw new IllegalArgumentException
     }
+    val rootX = root(x)
+    val rootY = root(y)
 
-    clustersContainer(x) = y
+    clustersContainer(rootX) = rootY
   }
 
   private def root(x:T):T = {
