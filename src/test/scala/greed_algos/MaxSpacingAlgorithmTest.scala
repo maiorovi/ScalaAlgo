@@ -1,8 +1,12 @@
 package greed_algos
 
-import graphs.{AdjacencyListBasedGraph, Edge, Vertex}
+import graphs.{AdjacencyListBasedGraph, Edge, Graph, Vertex}
+import greed_algos.JobSchedulerDemo.Lines
 import greed_algos.kruskal.MaxSpacingAlgorithm
+import greed_algos.kruskal.MaxSpacingDemo.{constructGraph, readLinesFromFile}
 import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
+
+import scala.io.Source
 
 class MaxSpacingAlgorithmTest extends FunSuite with BeforeAndAfter with Matchers {
 
@@ -35,5 +39,37 @@ class MaxSpacingAlgorithmTest extends FunSuite with BeforeAndAfter with Matchers
 
     maxSpacingAlgorithm.runMaxSpacingProblem(graph, 3) shouldBe (4)
   }
+
+  test("test algorithm on real data") {
+    val lines = readLinesFromFile("clustering1.txt")
+    val graph: Graph = constructGraph(lines.tail)
+    val maxSpacingAlgorithm = new MaxSpacingAlgorithm()
+    val finalClustersAmount = 4
+    //106
+    val startTime = System.currentTimeMillis()
+
+
+    (maxSpacingAlgorithm.runMaxSpacingProblem(graph, finalClustersAmount)) shouldBe 106
+
+    val endTime = System.currentTimeMillis()
+    println(s"Duration:${endTime-startTime}")
+  }
+  def readLinesFromFile(fileName: String): Lines = {
+    Source.fromResource(fileName).getLines().toList
+  }
+
+  def constructGraph(lines: List[String]): Graph = {
+    val graph = new AdjacencyListBasedGraph
+    val vertexes = (1 to 500).map(x => Vertex(x.toString()))
+    vertexes.foreach(v => graph.addVertex(v))
+
+    lines.map(line => {
+      val splittedLine = line.split(" ")
+      Edge(Vertex(splittedLine(0)), Vertex(splittedLine(1)), splittedLine(2).toInt)
+    }).foreach(graph.addEdge(_))
+
+    graph
+  }
+
 
 }
