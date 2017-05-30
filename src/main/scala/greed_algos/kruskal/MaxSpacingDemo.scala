@@ -12,8 +12,11 @@ object MaxSpacingDemo {
     val graph: Graph = constructGraph(lines.tail)
     val maxSpacingAlgorithm = new MaxSpacingAlgorithm()
     val finalClustersAmount = 4
-
+    //106
+    val startTime = System.currentTimeMillis()
     println(maxSpacingAlgorithm.runMaxSpacingProblem(graph, finalClustersAmount))
+    val endTime = System.currentTimeMillis()
+    println(s"Duration:${endTime-startTime}")
   }
 
   def readLinesFromFile(fileName: String): Lines = {
