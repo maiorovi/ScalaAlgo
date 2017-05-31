@@ -34,6 +34,8 @@ class UnionFind[T] {
     } else {
       clustersContainer(rootY) = rootX
     }
+    clustersCount -= 1
+    println(s"Current: ${clustersCount}")
   }
 
   private def root(x: T): T = {
@@ -55,6 +57,7 @@ class UnionFind[T] {
     root
   }
 
-
   def connected(x: T, y: T): Boolean = find(x) == find(y)
+
+  def count:Int = clustersCount
 }
