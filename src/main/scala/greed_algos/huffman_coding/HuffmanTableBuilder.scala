@@ -9,9 +9,9 @@ class HuffmanTableBuilder {
 
       def loop(node:Node, codeSoFar:String):Unit = node match {
         case InternalNode(freq, left, right) => loop(left, s"${codeSoFar}0"); loop(right, s"${codeSoFar}1")
-        case Leaf(symbol, freq) => map.put(symbol, codeSoFar)
+        case Leaf(symbol, freq) => map += (symbol -> codeSoFar)
       }
-
+      loop(node, "")
       map.toMap
     }
 }
