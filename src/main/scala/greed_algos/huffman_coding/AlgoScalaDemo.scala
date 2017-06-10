@@ -6,7 +6,7 @@ object AlgoScalaDemo {
 
   def main(args:Array[String]):Unit = {
     val lines = loadDataFromFile("huffman.txt")
-    val leafs = lines.zipWithIndex.map(t => Leaf(t._2.toString, t._1.toInt))
+    val leafs = lines.tail.zipWithIndex.map(t => Leaf(t._2.toString, t._1.toInt))
 
     val huffmanTableBuilder = new HuffmanTableBuilder
     val huffmanTrieConstructor = new HuffmanTrieConstructor
@@ -15,8 +15,8 @@ object AlgoScalaDemo {
     val codingTable = huffmanTableBuilder.buildCodingTable(root)
     val sortedByDescSizeCodingTable =  codingTable.values.toList.sortWith((s1, s2) => s1.length > s2.length)
     val sortedBySizeCodingTable =  codingTable.values.toList.sortWith((s1, s2) => s1.length < s2.length)
-    println(sortedByDescSizeCodingTable.head.length) // while this is not
-    println(sortedBySizeCodingTable.head.length) // this is correct
+    println(sortedByDescSizeCodingTable.head.length)
+    println(sortedBySizeCodingTable.head.length)
   }
 
   private def loadDataFromFile(fileName: String): List[String] = Source.fromResource(fileName).getLines().toList
