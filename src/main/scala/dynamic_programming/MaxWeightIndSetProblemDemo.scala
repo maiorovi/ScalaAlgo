@@ -11,7 +11,7 @@ object MaxWeightIndSetProblemDemo {
   def main(args: Array[String]):Unit = {
     val lines = loadDataFromFile("mwis.txt")
     val indexes = (1 to lines.size)
-    val vertexies = lines.zip(indexes).map(t => PathGraphVertex(t._2.toString, t._1.toInt))
+    val vertexies = lines.zip(indexes).map(t => PathGraphVertex(t._2.toString, t._1.toLong))
 
     val algorithm = new MaximumWeightIndependentSetProblem()
 
