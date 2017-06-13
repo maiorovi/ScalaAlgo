@@ -30,9 +30,9 @@ class MaximumWeightIndependentSetProblem {
   private def reconstructSolution(solutionResult: Array[Long], pathGraph: Array[PathGraphVertex]): List[PathGraphVertex] = {
     var i = solutionResult.size - 1
     var result = mutable.MutableList[PathGraphVertex]()
-    while( i > 1) {
+    while( i >= 1) {
       println(i)
-      if (solutionResult(i - 1) >= solutionResult(i - 2) + pathGraph(i - 1).weight) {
+      if (solutionResult(i) == solutionResult(i - 1)) {
         i = i -1
       }  else {
         result += pathGraph(i - 1)
