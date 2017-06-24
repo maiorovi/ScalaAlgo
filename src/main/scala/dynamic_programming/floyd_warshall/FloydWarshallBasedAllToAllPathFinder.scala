@@ -13,20 +13,20 @@ class FloydWarshallBasedAllToAllPathFinder {
     val destRng = 1 to n
     val kRng = 1 to n
 
-    val storage = Array.ofDim[Int](n, n, n)
+    val storage = Array.ofDim[Int](n+1, n+1, n+1)
 
     kRng.foreach(k => {
       srcRng.foreach(i => {
         destRng.foreach(j => {
-          if (k - 1 == 0) {
+          if (k == 1) {
             if (i == j) {
-              storage(0)(i-1)(j-1) = 0
+              storage(1)(i)(j) = 0
             }
             else if (graph.hasEdge(mapping(i), mapping(j))) {
-              storage(0)(i-1)(j-1) = graph.edgeWeightBetween(mapping(i), mapping(j))
-            }
+              storage(1)(i)(j) = graph.edgeWeightBetween(mapping(i), mapping(j))
+            } else { storage(1)(i)(j) = Int.MaxValue }
           } else {
-            storage(i-1)(j-1)(k) = Math.min(storage(i-1)(j-1)(k - 1), storage(i-1)(k-1)(k - 2) + storage(k-1)(j-1)(k - 2))
+            storage(i)(j)(k) = Math.min(storage(i)(j)(k - 1), storage(i)(k)(k - 1) + storage(k)(j)(k - 1))
           }
         })
       })
@@ -36,7 +36,7 @@ class FloydWarshallBasedAllToAllPathFinder {
 
     srcRng.foreach(i => {
       destRng.foreach(j => {
-        resultMap += (i, j) -> storage(i)(j)(n - 1)
+        resultMap += (i, j) -> storage(i)(j)(n)
       })
     })
 

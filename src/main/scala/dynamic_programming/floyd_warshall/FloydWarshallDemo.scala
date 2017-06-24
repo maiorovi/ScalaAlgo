@@ -9,7 +9,7 @@ object FloydWarshallDemo {
   type Lines = List[String]
 
   def main(args:Array[String]): Unit = {
-    val lines = loadDataFromFile("allToAllPath1.txt")
+    val lines = loadDataFromFile("allToAllPath3.txt")
     val graph = buildGraph(lines)
 
     val floydWarshall = new FloydWarshallBasedAllToAllPathFinder()
