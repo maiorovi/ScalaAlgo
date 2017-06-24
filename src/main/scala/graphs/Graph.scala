@@ -66,6 +66,10 @@ class AdjacencyListBasedGraph extends Graph {
 }
 
 class DirectedAdjacencyBasedListGraph extends Graph {
+  def edgeWeightBetween(v1: Vertex, v2: Vertex): Int = if (hasEdge(v1,v2)) outEdges(v1).filter(e => e.to == v2).head.weight else Integer.MAX_VALUE;
+
+  def hasEdge(v1:Vertex, v2:Vertex): Boolean = outEdges(v1).filter(e => e.to == v2).size > 0
+
   val adjacencyListBasedGraph = mutable.LinkedHashMap[Vertex, ArrayBuffer[Edge]]()
 
   override def addVertex(vertexOne: Vertex): Unit = {
