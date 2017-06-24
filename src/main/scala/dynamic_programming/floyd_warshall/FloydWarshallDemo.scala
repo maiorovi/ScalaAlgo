@@ -15,8 +15,9 @@ object FloydWarshallDemo {
     val floydWarshall = new FloydWarshallBasedAllToAllPathFinder()
 
     val finalMap = floydWarshall.findAllToAllPaths(graph)
+    println(finalMap.values.mkString(","))
 
-
+    println(finalMap.values.min)
   }
 
   private def buildGraph(graphData: Lines):DirectedAdjacencyBasedListGraph = {
