@@ -30,7 +30,7 @@ class FloydWarshallBasedAllToAllPathFinderTest extends FunSuite with BeforeAndAf
 
     val result = floydWarshallBasedAllToAllPathFinder.findAllToAllPaths(graph)
 
-    result shouldBe (Map(
+    result shouldBe Map(
       (1, 2) -> 5,
       (1,3) -> 8,
       (1,4) -> 9,
@@ -47,7 +47,7 @@ class FloydWarshallBasedAllToAllPathFinderTest extends FunSuite with BeforeAndAf
       (4,1) -> INF,
       (4,2) -> INF,
       (4,3) -> INF
-    ))
+    )
   }
 
 }
