@@ -15,8 +15,6 @@ object FloydWarshallDemo {
     val floydWarshall = new FloydWarshallBasedAllToAllPathFinder()
 
     val finalMap = floydWarshall.findAllToAllPaths(graph)
-    println(finalMap.values.mkString(","))
-
     println(finalMap.values.min)
   }
 

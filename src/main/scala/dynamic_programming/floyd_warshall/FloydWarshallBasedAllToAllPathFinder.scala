@@ -5,6 +5,7 @@ import graphs.{AdjacencyListBasedGraph, DirectedAdjacencyBasedListGraph}
 import scala.collection.mutable
 
 class FloydWarshallBasedAllToAllPathFinder {
+  private val INF = 999999
 
   def findAllToAllPaths(graph: DirectedAdjacencyBasedListGraph): Map[(Int, Int), Int] = {
     val n = graph.vertextAmount
@@ -13,19 +14,26 @@ class FloydWarshallBasedAllToAllPathFinder {
     val destRng = 1 to n
     val kRng = 1 to n
 
-    val storage = Array.fill[Int](n+1, n+1, n+1)(Int.MaxValue)
+    val storage = Array.fill[Int](n+1, n+1)(INF)
+
+    srcRng.foreach( i => {
+      destRng.foreach({j => {
+          if (i == j) {
+            storage(i)(j) = 0
+          } else if (graph.hasEdge(mapping(i), mapping(j))) {
+            storage(i)(j) = graph.edgeWeightBetween(mapping(i), mapping(j))
+          } else {
+            storage(i)(j) = INF
+          }
+        }
+      })
+    })
 
     kRng.foreach(k => {
       srcRng.foreach(i => {
         destRng.foreach(j => {
-          if (k == 1) {
-            if (i == j) {
-              storage(1)(i)(j) = 0
-            } else if (graph.hasEdge(mapping(i), mapping(j))) {
-              storage(1)(i)(j) = graph.edgeWeightBetween(mapping(i), mapping(j))
-            } else { storage(1)(i)(j) = Int.MaxValue }
-          } else {
-            storage(i)(j)(k) = Math.min(storage(i)(j)(k - 1), storage(i)(k)(k - 1) + storage(k)(j)(k - 1))
+          if (storage(i)(j) > storage(i)(k) + storage(k)(j)) {
+            storage(i)(j) = storage(i)(k) + storage(k)(j)
           }
         })
       })
@@ -35,7 +43,7 @@ class FloydWarshallBasedAllToAllPathFinder {
 
     srcRng.foreach(i => {
       destRng.foreach(j => {
-        resultMap += (i, j) -> storage(i)(j)(n)
+        resultMap += (i, j) -> storage(i)(j)
       })
     })
 
