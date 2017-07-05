@@ -3,10 +3,12 @@ package dynamic_programming.tsp
 import scala.collection.mutable
 import scala.reflect.ClassTag
 
-class SubsetSequenceProducer {
+class SubsetSequenceProducer[T](val x: List[T])(implicit m: ClassTag[T]) {
 
-  def produceAllSubsets[T](x: List[T])(implicit m: ClassTag[T]): List[List[T]] = {
-    val container = mutable.MutableList[List[T]]()
+  private val sizeToSubsetsMappingCache = produceAllSubsets.groupBy(set => set.size)
+
+  def produceAllSubsets: List[Set[T]] = {
+    val container = mutable.MutableList[Set[T]]()
     val cardinality = Math.pow(2, x size)
     val array = x.toArray
 
@@ -20,10 +22,15 @@ class SubsetSequenceProducer {
         if (binaryRepr.charAt(j) == '1') tmp += array(j)
       })
 
-      container += tmp.toList
+      container += tmp.toSet
       i += 1
     }
 
     container.toList
   }
+
+  def produceAllSubsetOfSize(size: Int): List[Set[T]] = sizeToSubsetsMappingCache(size)
+
+  def produceAllSbusetOfSizeWhichContainsGivenElement(size: Int, includedElem: T): List[Set[T]] =
+    produceAllSubsetOfSize(size).filter(set => set(includedElem))
 }

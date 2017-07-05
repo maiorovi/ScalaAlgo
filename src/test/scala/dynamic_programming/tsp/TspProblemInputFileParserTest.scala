@@ -16,4 +16,16 @@ class TspProblemInputFileParserTest extends FunSuite with Matchers {
     )
   }
 
+  test("tsp parser parses to matrix base undirected graph") {
+    val parser = new TspProblemInputFileParser
+
+    val matrix = parser.parseTo2DMatrix("tspInput.txt")
+
+    matrix.matrix should contain only (
+      Array(0.0, 74.53561415712697, 4109.913459889123, 3047.9957068357057),
+      Array(74.53561415712697, 0.0, 4069.7051490249282, 2999.4907299221477),
+      Array(4109.913459889123, 4069.7051490249282, 0.0, 1172.3669941144244),
+      Array(3047.9957068357057, 2999.4907299221477, 1172.3669941144244, 0.0))
+  }
+
 }

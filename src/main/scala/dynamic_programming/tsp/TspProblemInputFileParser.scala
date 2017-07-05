@@ -5,13 +5,24 @@ import scala.io.Source
 class TspProblemInputFileParser {
 
   def parse(fileName:String):List[City] = {
-    Source.fromResource(fileName).getLines().toList.tail.map( line => {
+    Source.fromResource(fileName).getLines().toList.tail.map(line => {
       val cords = line.split("\\s").map(_.toDouble)
       City(cords(0), cords(1))
     })
   }
 
+  def parseTo2DMatrix(fileName:String):AdjacencyMatrixBasedUndirectedGraph = {
+    val cities = parse(fileName).toArray
+    val matrix = Array.ofDim[Double](cities.size, cities.size)
 
+    (0 until cities.size).foreach( i => {
+      (0 until cities.size).foreach( j => {
+        matrix(i)(j) = cities(i).distTo(cities(j))
+      })
+    })
+
+    new AdjacencyMatrixBasedUndirectedGraph(matrix)
+  }
 
 
 }
