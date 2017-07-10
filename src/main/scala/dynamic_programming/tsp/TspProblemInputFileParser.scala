@@ -7,7 +7,7 @@ class TspProblemInputFileParser {
   def parse(fileName:String):List[City] = {
     Source.fromResource(fileName).getLines().toList.tail.map(line => {
       val cords = line.split("\\s").map(_.toDouble)
-      City(cords(0), cords(1))
+      City(cords(1), cords(2))
     })
   }
 
