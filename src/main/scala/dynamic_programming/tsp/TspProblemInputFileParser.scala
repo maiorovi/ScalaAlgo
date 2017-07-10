@@ -23,8 +23,6 @@ class TspProblemInputFileParser {
 
     new AdjacencyMatrixBasedUndirectedGraph(matrix)
   }
-
-
 }
 
 case class City(x:Double, y:Double) {
