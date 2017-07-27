@@ -4,7 +4,6 @@ import scala.collection.mutable
 
 class StronglyConnectedComponentsAlgo {
 
-
   def findStronglyConnectedComponents(graph: DirectedAdjacencyBasedListGraph): mutable.MutableList[mutable.Set[Vertex]] = {
     val dfs = new DepthFirstSearch
     val reversedGraph = graph.reverse()

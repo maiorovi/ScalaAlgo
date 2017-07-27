@@ -122,4 +122,8 @@ class DirectedAdjacencyBasedListGraph extends Graph {
   override def edges: List[Edge] = ???
 }
 
-case class Vertex(id: String)
+case class Vertex(id: String) {
+  def this(id: Int) {
+    this(id.toString)
+  }
+}
