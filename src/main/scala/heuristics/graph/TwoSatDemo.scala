@@ -2,7 +2,6 @@ package heuristics.graph
 
 import graphs.StronglyConnectedComponentsAlgo
 import hash_tables.Application.Line
-import heuristics.TwoSatConstructor
 
 import scala.io.Source
 
